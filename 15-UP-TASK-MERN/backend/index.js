@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import usuarioRoutes from './routes/usuarioRoutes.js'
 
 const app = express();
+//procesa la informacion tipo json
+app.use(express.json());
 
 dotenv.config();
 conectarDB();
