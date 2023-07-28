@@ -1,0 +1,33 @@
+para construir app con VITE
+
+- npm init vite@latest
+- cd nombre del proyecto
+- npm install
+- npm run dev
+
+Para agregar Tailwind CSS
+- npm install -D tailwindcss postcss autoprefixer
+- npx tailwindcss init -p
+-agregar en el archivo tailwind.config.js
+	"index.html", "./src/**/*.jsx"
+
+#Utilizando Style components
+npm install @emotion/react @emotion/styled
+=============================================================
+Creacion de sitios web con REMIX.RUN
+- npx create-remix@latest
+
+==============================================================
+#Crear una base de datos PRISMA
+- mysql -u root
+- npm i -D prisma
+- npm i @prisma/client
+- npx prisma init 
+----MIGRAR db
+- npx prisma migrate dev
+- npx prisma migrate reset
+- npx prisma studio - sirve para ver lso datos
+- npx prisma db seed -> cargar datos
+- npm install @types/node --save-dev => se ejecuta si da un problema qeu no reconoce console.log()
+==================================
+npm i ts-node -> versino de ts en node 
