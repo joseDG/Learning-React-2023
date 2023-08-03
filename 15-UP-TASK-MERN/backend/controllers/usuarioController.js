@@ -128,9 +128,9 @@ const nuevoPassword = async (req, res) => {
 
 }
 
-
-
-
+const perfil = async (req, res) => {
+  console.log("desde perfil")
+}
 
 
 
@@ -142,4 +142,5 @@ export {
   olvidePassword,
   comprobarToken,
   nuevoPassword,
+  perfil,
 };
