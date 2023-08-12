@@ -1,5 +1,4 @@
 import express from "express";
-
 import {
   agregarTarea,
   obtenerTarea,
@@ -14,7 +13,7 @@ const router = express.Router();
 
 router.post('/', checkAuth, agregarTarea);
 router
-  .router("/:id")
+  .route("/:id")
   .get(checkAuth, obtenerTarea)
   .put(checkAuth, actualizarTarea)
   .delete(checkAuth, eliminarTarea)
