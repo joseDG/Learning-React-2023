@@ -20,6 +20,26 @@ const Registrar = () => {
       })
       return
     }
+
+    if(password !== repetirPassword){
+      setAlerta({
+        msg: 'Los password no son iguales',
+        error: true
+      })
+      return
+    }
+
+    if (password.length < 6) {
+      setAlerta({
+        msg: "El password es muy corto, agrega minimo 6 caracteres",
+        error: true,
+      });
+      return;
+    }
+
+    setAlerta({})
+
+    
   }
 
   const { msg } = alerta
