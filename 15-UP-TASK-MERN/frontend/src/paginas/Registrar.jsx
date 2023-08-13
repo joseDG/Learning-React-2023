@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Alerta from "../components/Alerta";
 
 const Registrar = () => {
 
@@ -7,6 +8,21 @@ const Registrar = () => {
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ repetirPassword, setRepetirPassword ] = useState('')
+  const [ alerta, setAlerta ] = useState({})
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if([nombre, email, password, repetirPassword].includes('')){
+      setAlerta({
+        msg: 'Todos los campos son obligatorios',
+        error: true
+      })
+      return
+    }
+  }
+
+  const { msg } = alerta
 
   return (
     <>
@@ -15,11 +31,11 @@ const Registrar = () => {
         <span className="text-slate-700">proyectos</span>
       </h1>
 
-   
+      {msg && <Alerta alerta={alerta} />}
 
       <form
         className="my-10 bg-white shadow rounded-lg p-10"
-        
+        onSubmit={handleSubmit}
       >
         <div className="my-5">
           <label
@@ -34,7 +50,7 @@ const Registrar = () => {
             placeholder="Tu Nombre"
             className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
             value={nombre}
-            onChange={e => setNombre(e.target.value)}
+            onChange={(e) => setNombre(e.target.value)}
           />
         </div>
 
@@ -51,7 +67,7 @@ const Registrar = () => {
             placeholder="Email de Registro"
             className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="my-5">
@@ -67,7 +83,7 @@ const Registrar = () => {
             placeholder="Password de Registro"
             className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
@@ -84,7 +100,7 @@ const Registrar = () => {
             placeholder="Repetir tu Password"
             className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
             value={repetirPassword}
-            onChange={e => setRepetirPassword(e.target.value)}
+            onChange={(e) => setRepetirPassword(e.target.value)}
           />
         </div>
 
