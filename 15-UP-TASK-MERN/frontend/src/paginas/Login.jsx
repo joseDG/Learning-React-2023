@@ -10,7 +10,8 @@ const Login = () => {
   const [alerta, setAlerta] = useState({});
 
   const { setAuth } = useAuth();
-
+  
+  //hook que se usa para navegar entre paginas
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

@@ -14,7 +14,7 @@ const ProyectosProvider = ({children}) => {
     const [alerta, setAlerta] = useState({});
     const [proyecto, setProyecto] = useState({});
     const [cargando, setCargando] = useState(false);
-    const [ modalFormularioTarea, setModalFormularioTarea ] = useState(false)
+    const [modalFormularioTarea, setModalFormularioTarea ] = useState(false)
     const [ tarea, setTarea] = useState({})
     const [ modalEliminarTarea, setModalEliminarTarea ] = useState(false)
     const [ colaborador, setColaborador] = useState({})
@@ -214,7 +214,7 @@ const ProyectosProvider = ({children}) => {
                     Authorization: `Bearer ${token}`
                 }
             }
-
+            //se agrega la tareas
             const { data } = await clienteAxios.post('/tareas', tarea, config)
 
             setAlerta({})
@@ -373,6 +373,7 @@ const ProyectosProvider = ({children}) => {
             }
             const { data } = await clienteAxios.post(`/proyectos/eliminar-colaborador/${proyecto._id}`, { id: colaborador._id }, config)
 
+            //Sincronizo con el state
             const proyectoActualizado = {...proyecto}
 
             proyectoActualizado.colaboradores = proyectoActualizado.colaboradores.filter(colaboradorState => colaboradorState._id !== colaborador._id )

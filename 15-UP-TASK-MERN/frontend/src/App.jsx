@@ -11,6 +11,8 @@ import ConfirmarCuenta from './paginas/ConfirmarCuenta'
 import Proyectos from "./paginas/Proyectos";
 import NuevoProyecto from "./paginas/NuevoProyecto";
 import Proyecto from "./paginas/Proyecto";
+import EditarProyecto from "./paginas/EditarProyecto";
+import NuevoColaborador from "./paginas/NuevoColaborador";
 
 import { AuthProvider } from "./context/AuthProvider";
 import { ProyectosProvider } from "./context/ProyectosProvider";
