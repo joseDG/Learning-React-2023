@@ -1,7 +1,6 @@
 import Proyecto from "../models/Proyecto.js";
 import Usuario from "../models/Usuario.js";
 
-//Obtener Proyectos User Loguados
 const obtenerProyectos = async (req, res) => {
   const proyectos = await Proyecto.find({
     $or: [
@@ -12,7 +11,6 @@ const obtenerProyectos = async (req, res) => {
   res.json(proyectos);
 };
 
-//Crear Proyectos
 const nuevoProyecto = async (req, res) => {
   const proyecto = new Proyecto(req.body);
   proyecto.creador = req.usuario._id;
@@ -25,34 +23,34 @@ const nuevoProyecto = async (req, res) => {
   }
 };
 
-//Obtener Proyectos por ID
 const obtenerProyecto = async (req, res) => {
   const { id } = req.params;
 
   const proyecto = await Proyecto.findById(id)
-    .populate('tareas')
-    .populate("colaboradores", "nombre email")
+    .populate({
+      path: "tareas",
+      populate: { path: "completado", select: "nombre" },
+    })
+    .populate("colaboradores", "nombre email");
 
   if (!proyecto) {
     const error = new Error("No Encontrado");
     return res.status(404).json({ msg: error.message });
   }
 
-  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
-    const error = new Error("Accion No valida");
+  if (
+    proyecto.creador.toString() !== req.usuario._id.toString() &&
+    !proyecto.colaboradores.some(
+      (colaborador) => colaborador._id.toString() === req.usuario._id.toString()
+    )
+  ) {
+    const error = new Error("Acción No Válida");
     return res.status(401).json({ msg: error.message });
   }
 
-  //Obtener las tareas del Proyecto
-  //const tareas = await Tarea.find().where("proyecto").equals(proyecto._id);
-
-  res.json({
-    proyecto,
-    //tareas,
-  });
+  res.json(proyecto);
 };
 
-//Editar Proyecto
 const editarProyecto = async (req, res) => {
   const { id } = req.params;
 
@@ -64,7 +62,7 @@ const editarProyecto = async (req, res) => {
   }
 
   if (proyecto.creador.toString() !== req.usuario._id.toString()) {
-    const error = new Error("Accion No valida");
+    const error = new Error("Acción No Válida");
     return res.status(401).json({ msg: error.message });
   }
 
@@ -73,36 +71,35 @@ const editarProyecto = async (req, res) => {
   proyecto.fechaEntrega = req.body.fechaEntrega || proyecto.fechaEntrega;
   proyecto.cliente = req.body.cliente || proyecto.cliente;
 
-  try{
-    const proyectoAlmacenado = await proyecto.save()
-    res.json(proyectoAlmacenado)
-  }catch(error){
-    console.log(error)
+  try {
+    const proyectoAlmacenado = await proyecto.save();
+    res.json(proyectoAlmacenado);
+  } catch (error) {
+    console.log(error);
   }
 };
 
 const eliminarProyecto = async (req, res) => {
+  const { id } = req.params;
 
-   const { id } = req.params;
+  const proyecto = await Proyecto.findById(id);
 
-   const proyecto = await Proyecto.findById(id);
+  if (!proyecto) {
+    const error = new Error("No Encontrado");
+    return res.status(404).json({ msg: error.message });
+  }
 
-   if (!proyecto) {
-     const error = new Error("No Encontrado");
-     return res.status(404).json({ msg: error.message });
-   }
+  if (proyecto.creador.toString() !== req.usuario._id.toString()) {
+    const error = new Error("Acción No Válida");
+    return res.status(401).json({ msg: error.message });
+  }
 
-   if (proyecto.creador.toString() !== req.usuario._id.toString()) {
-     const error = new Error("Accion No valida");
-     return res.status(401).json({ msg: error.message });
-   }
-
-   try{
+  try {
     await proyecto.deleteOne();
-    res.json({msg: "Proyecto Eliminado"});
-   }catch(error){
-    console.log(error)
-   }
+    res.json({ msg: "Proyecto Eliminado" });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const buscarColaborador = async (req, res) => {
@@ -179,16 +176,13 @@ const eliminarColaborador = async (req, res) => {
   res.json({ msg: "Colaborador Eliminado Correctamente" });
 };
 
-
-
 export {
   obtenerProyectos,
   nuevoProyecto,
   obtenerProyecto,
   editarProyecto,
   eliminarProyecto,
-  agregarColaborador,
-  eliminarColaborador,
   buscarColaborador,
+  agregarColaborador,
   eliminarColaborador,
 };
