@@ -1,13 +1,14 @@
-import express from 'express'
+import express from "express";
+
 import {
   obtenerProyectos,
   nuevoProyecto,
   obtenerProyecto,
   editarProyecto,
   eliminarProyecto,
+  buscarColaborador,
   agregarColaborador,
   eliminarColaborador,
-  buscarColaborador,
 } from "../controllers/proyectoController.js";
 import checkAuth from "../middleware/checkAuth.js";
 
@@ -25,7 +26,7 @@ router
   .delete(checkAuth, eliminarProyecto);
 
 router.post("/colaboradores", checkAuth, buscarColaborador);
-router.post("/agregar-colaboradores/:id", checkAuth,  agregarColaborador);
-router.post("/eliminar-colaborador/:id", checkAuth, eliminarColaborador)
+router.post("/colaboradores/:id", checkAuth, agregarColaborador);
+router.post("/eliminar-colaborador/:id", checkAuth, eliminarColaborador);
 
 export default router;
