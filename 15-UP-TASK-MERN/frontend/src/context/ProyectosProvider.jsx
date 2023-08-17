@@ -196,9 +196,11 @@ const ProyectosProvider = ({children}) => {
     }
 
     const submitTarea = async tarea => {
+        //console.log(tarea)
         if(tarea?.id) {
             await editarTarea(tarea)
         } else {
+            delete tarea.id
             await crearTarea(tarea)
         }
     }
