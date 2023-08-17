@@ -46,6 +46,7 @@ const ProyectosProvider = ({children}) => {
         obtenerProyectos()
     }, [auth])
 
+    //agregando socket.io
     useEffect(() => {
         socket = io(import.meta.env.VITE_BACKEND_URL)
     }, [])
